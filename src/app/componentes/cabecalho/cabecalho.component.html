@@ -2,7 +2,9 @@
   <nav class="navbar navbar-expand-lg
                     navbar-light bg-light">
     <div class="nav-brand" href="#">
-      <i class="fa-solid fa-mug-saucer"></i>
+      <a class="nav-link text-dark"  [routerLink]="'pagina-inicial'">
+        <i class="fa-solid fa-mug-saucer"></i>
+      </a>
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,7 +18,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" [routerLink]="'visualizar-tarefas'"
-              [routerLinkActive]="'active'">Sobre</a>
+              [routerLinkActive]="'active'">Vizualizar Tarefas</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Contato</a>
