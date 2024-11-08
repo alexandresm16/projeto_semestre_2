@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TarefaService} from "../../app-core/servicos/tarefa-service.service";
+import {Tarefa} from "../../app-core/model/Tarefa";
 
 declare var $: any;
 
@@ -11,8 +12,14 @@ declare var $: any;
 export class VisualizarTarefasComponent implements OnInit {
 
   i: number =0;
-  constructor(private tarefaService: TarefaService) { }
 
+  tarefas: Tarefa [] = [];
+
+  constructor(private tarefaService: TarefaService) {
+
+    this.tarefas= tarefaService.populartabela();
+
+  }
 
   ngOnInit(): void {
   }
@@ -31,4 +38,6 @@ export class VisualizarTarefasComponent implements OnInit {
   closeModal(){
     $('#add-tarefa').modal('hide');
   }
+
+  protected readonly Tarefa = Tarefa;
 }
