@@ -18,7 +18,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let t of tarefas; let i = index">
-      <th scope="row">{{ i+1 }}</th>
+      <th scope="row">{{ i + 1 }}</th>
       <td>{{ t.titulo }}</td>
       <td>{{ t.datainicio }}</td>
       <td>{{ t.status }}</td>
@@ -45,51 +45,55 @@
           Adicionar nova tarefa
         </h5>
       </div>
-      <div class="modal-body">
-        <form>
+      <form [formGroup]="formularioTarefa"
+            (ngSubmit)="salvarTarefa()">
+        <div class="modal-body">
           <div class="form-row">
             <div class="mb-3 col-md-12">
               <label for="tituloTarefa" class="form-label">
                 Título Tarefa
               </label>
-              <input type="text" class="form-control" id="tituloTarefa">
+              <input type="text" class="form-control" id="tituloTarefa" formControlName="tituloTarefa">
             </div>
             <div class="mb-3 col-md-6">
               <label for="dataInicioTarefa" class="form-label">
                 Data Inicio
               </label>
-              <input type="datetime-local" class="form-control" id="dataInicioTarefa">
+              <input type="datetime-local" class="form-control" id="dataInicioTarefa"
+                     formControlName="dataInicioTarefa">
             </div>
             <div class="mb-3 col-md-6">
               <label for="dataConclusaoTarefa" class="form-label">
                 Data Inicio
               </label>
-              <input type="datetime-local" class="form-control" id="dataConclusaoTarefa">
+              <input type="datetime-local" class="form-control" id="dataConclusaoTarefa"
+                     formControlName="dataConclusaoTarefa">
             </div>
             <div class="md-3 col-md-12">
               <label>Status</label>
-                <select class="form-control">
-                  <option value="NOVA">NOVA</option>
-                  <option value="EM_ANDAMENTO">EM_ANDAMENTO</option>
-                  <option value="CONCLUIDO">CONCLUIDO</option>
-                </select>
+              <select class="form-control" formControlName="statusTarefa">
+                <option value="NOVA">NOVA</option>
+                <option value="EM_ANDAMENTO">EM_ANDAMENTO</option>
+                <option value="CONCLUIDO">CONCLUIDO</option>
+              </select>
             </div>
             <div class="md-3 col-md-12">
               <label class="form-check-label">Descrição</label>
-              <textarea class="form-control" id="descricaoTarefa" rows="3">
+              <textarea class="form-control" formControlName="descricaoTarefa" id="descricaoTarefa" rows="3">
               </textarea>
             </div>
           </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" (click)="closeModal()">
-          Fechar
-        </button>
-        <button class="btn btn-success" type="button">
-          Salvar
-        </button>
-      </div>
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-bs-dismiss="modal" (click)="closeModal()">
+            Fechar
+          </button>
+          <button class="btn btn-success" type="submit">
+            Salvar
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

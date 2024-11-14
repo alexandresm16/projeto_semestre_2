@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {TarefaService} from "../../app-core/servicos/tarefa-service.service";
 import {Tarefa} from "../../app-core/model/Tarefa";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 declare var $: any;
 
@@ -15,10 +16,23 @@ export class VisualizarTarefasComponent implements OnInit {
 
   tarefas: Tarefa [] = [];
 
-  constructor(private tarefaService: TarefaService) {
+  formularioTarefa: FormGroup;
+
+
+
+
+  constructor(private tarefaService: TarefaService,
+              private fb: FormBuilder) {
 
     this.tarefas= tarefaService.populartabela();
 
+    this.formularioTarefa = this.fb.group({
+      tituloTarefa: ['', Validators.required],
+      dataInicioTarefa: ['', Validators.required],
+      dataConclusaoTarefa: ['', Validators.required],
+      statusTarefa: ['', Validators.required],
+      descricaoTarefa: ['', Validators.required]
+    });
   }
 
   ngOnInit(): void {
@@ -37,6 +51,11 @@ export class VisualizarTarefasComponent implements OnInit {
 
   closeModal(){
     $('#add-tarefa').modal('hide');
+  }
+
+  salvarTarefa(){
+    console.log('DADOS DA TAREFA NOVA: ', this.formularioTarefa.value);
+
   }
 
   protected readonly Tarefa = Tarefa;
