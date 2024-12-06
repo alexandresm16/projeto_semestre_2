@@ -1,53 +1,50 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Tarefa} from "../model/Tarefa";
+import Dexie from "dexie";
 
 @Injectable({
   providedIn: 'root'
 })
-export class TarefaService {
+export class TarefaService extends Dexie {
   private tarefasTeste: Tarefa[] = [];
 
 
   private tarefas: string[] = [];
-  constructor() { }
 
-  addTarefa(tarefa: string){
-    this.tarefas.push(tarefa);
-    console.log("TAREFAS ADICIONADAS",
-      this.tarefas);
+  tarefasDB: Dexie.Table<Tarefa, number>;
+
+  constructor() {
+    super('TarefaDB');
+    this.version(1).stores({
+      tarefas: '++id, titulo, dataInicio, dataConclusao, status, descricao',
+    });
+
+    this.tarefasDB = this.table('tarefas');
+
   }
 
-  populartabela(): Tarefa[] {
-    let t: Tarefa = new Tarefa(
-      0,
-      'Estudar Angular',
-      '01/11/2024',
-      '07/11/2024',
-      'NOVA',
-      'Estudar o framework Angular'
-    );
-
-    let t2: Tarefa = new Tarefa(
-      0,
-      'Estudar Bootstrap',
-      '01/11/2024',
-      '07/11/2024',
-      'EM_ANDAMENTO',
-      'Estudar o framework bootstrap'
-    );
-
-    let t3: Tarefa = new Tarefa(
-      0,
-      'Popular tabelas',
-      '01/11/2024',
-      '07/11/2024',
-      'CONCLUIDA',
-      'Popular as linhas de uma tabela'
-    );
-
-    this.tarefasTeste.push(t, t2, t3);
-    return this.tarefasTeste;
+  async adicionarTarefa(tarefa: Tarefa): Promise<number> {
+    return await this.tarefasDB.add(tarefa);
   }
+
+  async buscarTarefa(): Promise<Tarefa[]> {
+    return await this.tarefasDB.toArray();
+  }
+
+  async removerTareta(id: number): Promise<void>{
+    return await this.tarefasDB.delete(id);
+  }
+
+  async atualizarTarefa(id: number, tarefa: Tarefa): Promise<number> {
+    return await this.tarefasDB.update(id, tarefa);
+  }
+
+
+
+
+
+
+
 }
 
 
