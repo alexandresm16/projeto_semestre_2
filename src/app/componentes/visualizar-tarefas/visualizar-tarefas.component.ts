@@ -30,8 +30,20 @@ export class VisualizarTarefasComponent implements OnInit {
       dataConclusaoTarefa: ['', Validators.required],
       statusTarefa: ['', Validators.required],
       descricaoTarefa: ['', Validators.required],
-      id: [0]
+      id: [0],
+      imagem: []
     });
+  }
+
+  onFileChange(event: any){
+    const file = event.target.files[0];
+    if(file){
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        this.formularioTarefa.patchValue({imagem: loadEvent?.target?.result});
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   ngOnInit(): void {
@@ -41,8 +53,6 @@ export class VisualizarTarefasComponent implements OnInit {
   listarTarefas(){
     this.tarefaService.buscarTarefa().then(resposta => this.tarefas = resposta);
   }
-
-
 
 
   openModal(){
@@ -60,7 +70,9 @@ export class VisualizarTarefasComponent implements OnInit {
         this.formularioTarefa.value.dataInicioTarefa,
         this.formularioTarefa.value.dataConclusaoTarefa,
         this.formularioTarefa.value.statusTarefa,
-        this.formularioTarefa.value.descricaoTarefa);
+        this.formularioTarefa.value.descricaoTarefa,
+        undefined,
+        this.formularioTarefa.value.imagem);
 
       this.tarefaService.adicionarTarefa(novaTarefa)
         .then(resposta => {
@@ -129,6 +141,7 @@ export class VisualizarTarefasComponent implements OnInit {
       dataConlusaoTarefa: tarefaEditar.dataconclusao,
       descricaoTarefa: tarefaEditar.descricao,
       id: tarefaEditar.id,
+      imagem: tarefaEditar.imagem
     });
     this.openModal();
   }
@@ -140,7 +153,8 @@ export class VisualizarTarefasComponent implements OnInit {
       this.formularioTarefa.value.dataConclusaoTarefa,
       this.formularioTarefa.value.statusTarefa,
       this.formularioTarefa.value.descricaoTarefa,
-      this.formularioTarefa.value.id
+      this.formularioTarefa.value.id,
+      this.formularioTarefa.value.imagem
     );
     this.tarefaService.atualizarTarefa(this.formularioTarefa.value.id, editarTarefa)
       .then(resposta => {
@@ -155,7 +169,6 @@ export class VisualizarTarefasComponent implements OnInit {
       });
 
   }
-
 
   protected readonly Tarefa = Tarefa;
 }
